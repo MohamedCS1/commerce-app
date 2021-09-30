@@ -1,5 +1,6 @@
 package com.example.phons
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import com.example.Pojo.Login
+import com.example.Product.Prouduct_activity
 
 class Login_activity : AppCompatActivity() {
 
@@ -56,6 +58,9 @@ class Login_activity : AppCompatActivity() {
                if (t!!.status == "1")
                {
                    uiq = t.uiq
+                   val intent = Intent(this@Login_activity,Prouduct_activity::class.java)
+                   intent.putExtra("uiq",t.uiq)
+                   startActivity(intent)
                    Toast.makeText(this@Login_activity,"Login Successfully",Toast.LENGTH_SHORT).show()
                }
                else if (!t.checkinternt)
