@@ -22,8 +22,6 @@ class Login_activity : AppCompatActivity() {
 
     var loginviewmodel: LoginViewModel? = null
 
-    var uiq:String? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -62,7 +60,6 @@ class Login_activity : AppCompatActivity() {
                    prf.prefcreate(this@Login_activity)
                    prf.insertuiq(t.uiq)
                    val intent = Intent(this@Login_activity,Company_activity::class.java)
-                   intent.putExtra("uiq",t.uiq)
                    startActivity(intent)
                    Toast.makeText(this@Login_activity,"Login Successfully",Toast.LENGTH_SHORT).show()
                }

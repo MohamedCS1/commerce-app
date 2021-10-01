@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:cardUseCompatPadding="true"
+    app:cardElevation="4dp"
+    android:id="@+id/card_product"
+    android:gravity="center"
+    app:cardCornerRadius="10pt"
+    android:layout_margin="2pt">
+
+    <LinearLayout
+        android:id="@+id/card_product_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4pt"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_company_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8pt"
+            android:gravity="center"
+            android:text="AR UI Trends 2002"
+            android:textColor="#33357c"
+            android:textSize="7pt"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/image_company"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="6pt"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tv_company_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8pt"
+            android:gravity="center"
+            android:text="AR UI Trends 2002"
+            android:textColor="#337C34"
+            android:textSize="7pt"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tv_company_lastversion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8pt"
+            android:gravity="center"
+            android:text="AR UI Trends 2002"
+            android:textColor="#B0000000"
+            android:textSize="7pt"
+            android:textStyle="bold" />
+
+
+        <Button
+            android:id="@+id/bu_company_detailes"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="+ View Products"
+            android:layout_gravity="center"
+            android:textColor="#EE5F00"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
+            android:textStyle="normal"
+            android:textSize="8pt"
+            />
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

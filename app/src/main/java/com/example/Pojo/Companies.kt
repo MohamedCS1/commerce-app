@@ -1,3 +1,3 @@
 package com.example.Pojo
 
-data class Companies(val compid:Int, val company_title:String, val lastversion:Int, val image_link:String)
+data class Companies(val compid:String, val company_title:String, val lastversion:String, val image_link:String)

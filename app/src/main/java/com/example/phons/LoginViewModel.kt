@@ -31,13 +31,13 @@ class LoginViewModel():ViewModel() {
                                 it.lines().forEach { line ->
 
                                     val b = line.substringAfter("<data>").substringBefore("</data>").substringAfter(">").substringBefore("<")
-                                    Log.d("line",b)
+//                                    Log.d("line",b)
                                     if (b != "")
                                     {
                                         arr.add(b)
                                     }
                                 }
-                                Log.d("line" ,arr.size.toString())
+//                                Log.d("line" ,arr.size.toString())
                                 if(arr.size == 3)
                                 {
                                     status = arr[0]
