@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:cardUseCompatPadding="true"
+    app:cardElevation="4dp"
+    android:id="@+id/card_product"
+    android:gravity="center"
+    app:cardCornerRadius="10pt"
+    android:layout_margin="2pt">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4pt"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_product_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8pt"
+            android:gravity="center"
+            android:text="AR UI Trends 2002"
+            android:textColor="#33357c"
+            android:textSize="7pt"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/image_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="6pt"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tv_product_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8pt"
+            android:gravity="center"
+            android:text="AR UI Trends 2002"
+            android:textColor="#337C34"
+            android:textSize="7pt"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="2pt"
+            android:drawableLeft="@drawable/bg"
+            android:drawablePadding="0dp"
+            android:gravity="center"
+            android:paddingTop="10sp"
+            android:text="200"
+            android:textColor="#72C834"
+            android:textSize="7pt"
+            android:textStyle="bold|italic" />
+
+        <TextView
+            android:id="@+id/tv_product_lastversion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8pt"
+            android:gravity="center"
+            android:text="AR UI Trends 2002"
+            android:textColor="#B0000000"
+            android:textSize="7pt"
+            android:textStyle="bold" />
+
+
+        <Button
+            android:id="@+id/bu_company_detailes"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="+ View Products"
+            android:textColor="#EE5F00"
+            android:textSize="8pt"
+            android:textStyle="normal" />
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
