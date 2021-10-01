@@ -1,3 +1,3 @@
 package com.example.Pojo
 
-data class Product(val product_ID:Int ,val product_title:String ,val product_description:String ,val product_BARCODE:String ,val product_PRICE:Double ,val lastversion:Int)
+data class Product(val id:String ,val title:String ,val description:String ,val barcode:String ,val price:String ,val lastversion:String ,val image:String)

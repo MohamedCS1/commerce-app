@@ -95,6 +95,7 @@ class Login_activity : AppCompatActivity() {
             val intent = Intent(this@Login_activity,Company_activity::class.java)
             intent.putExtra("uiq",uiq)
             startActivity(intent)
+            finish()
         }
         super.onStart()
     }

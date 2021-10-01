@@ -15,6 +15,9 @@ class PrefManage {
 
     private val key_uiq = "uiq"
 
+
+    private val key_compid = "compid"
+
     var context:Context? = null
 
     @SuppressLint("CommitPrefEdits")
@@ -33,7 +36,17 @@ class PrefManage {
 
     fun getuiq():String
     {
-        return pref?.getString(key_uiq,"").toString()
+        return pref!!.getString(key_uiq,"").toString()
     }
 
+    fun insertcompid(compid:String)
+    {
+        editor?.putString(key_compid ,compid)
+        editor?.apply()
+    }
+
+    fun getcompid():String
+    {
+        return pref!!.getString(key_compid ,"").toString()
+    }
 }

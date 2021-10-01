@@ -1,7 +1,6 @@
 package com.example.phons
 
 import android.os.Build
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.Pojo.Login

@@ -1,11 +1,9 @@
 package com.example.Company
 
 import android.os.Build
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.Pojo.Companies
-import com.example.Pojo.Login
 import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
