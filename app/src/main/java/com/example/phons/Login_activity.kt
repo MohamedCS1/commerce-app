@@ -1,10 +1,8 @@
 package com.example.phons
 
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -14,7 +12,7 @@ import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import com.example.Data.PrefManage
 import com.example.Pojo.Login
-import com.example.Product.Prouduct_activity
+import com.example.Company.Company_activity
 
 class Login_activity : AppCompatActivity() {
 
@@ -63,7 +61,7 @@ class Login_activity : AppCompatActivity() {
                {
                    prf.prefcreate(this@Login_activity)
                    prf.insertuiq(t.uiq)
-                   val intent = Intent(this@Login_activity,Prouduct_activity::class.java)
+                   val intent = Intent(this@Login_activity,Company_activity::class.java)
                    intent.putExtra("uiq",t.uiq)
                    startActivity(intent)
                    Toast.makeText(this@Login_activity,"Login Successfully",Toast.LENGTH_SHORT).show()
@@ -97,7 +95,7 @@ class Login_activity : AppCompatActivity() {
         val uiq = prf.getuiq()
         if (uiq.isNotEmpty())
         {
-            val intent = Intent(this@Login_activity,Prouduct_activity::class.java)
+            val intent = Intent(this@Login_activity,Company_activity::class.java)
             intent.putExtra("uiq",uiq)
             startActivity(intent)
         }

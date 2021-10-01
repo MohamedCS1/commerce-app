@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Phons">
         <activity
-            android:name="com.example.Product.Prouduct_activity"
+            android:name="com.example.Company.Company_activity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
