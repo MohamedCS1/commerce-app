@@ -36,11 +36,6 @@ class LoginViewModel():ViewModel() {
                                     {
                                         arr.add(b)
                                     }
-//                                status = line[0].toString()
-//                                msg = line[1].toString()
-//                                uiq = line[2].toString()
-//                                val x =  Login(status!!.toInt() ,msg.toString() ,uiq.toString())
-//                                MutableLiveDataLogin.value = x
                                 }
                                 Log.d("line" ,arr.size.toString())
                                 if(arr.size == 3)

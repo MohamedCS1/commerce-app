@@ -1,8 +1,10 @@
 package com.example.phons
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -10,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
+import com.example.Data.PrefManage
 import com.example.Pojo.Login
 import com.example.Product.Prouduct_activity
 
@@ -53,11 +56,13 @@ class Login_activity : AppCompatActivity() {
 
         }
 
+        val prf = PrefManage()
         loginviewmodel!!.MutableLiveDataLogin.observe(this ,object :Observer<Login>{
             override fun onChanged(t: Login?) {
                if (t!!.status == "1")
                {
-                   uiq = t.uiq
+                   prf.prefcreate(this@Login_activity)
+                   prf.insertuiq(t.uiq)
                    val intent = Intent(this@Login_activity,Prouduct_activity::class.java)
                    intent.putExtra("uiq",t.uiq)
                    startActivity(intent)
@@ -85,5 +90,17 @@ class Login_activity : AppCompatActivity() {
 
         })
 
+    }
+    override fun onStart() {
+        val prf = PrefManage()
+        prf.prefcreate(this)
+        val uiq = prf.getuiq()
+        if (uiq.isNotEmpty())
+        {
+            val intent = Intent(this@Login_activity,Prouduct_activity::class.java)
+            intent.putExtra("uiq",uiq)
+            startActivity(intent)
+        }
+        super.onStart()
     }
 }
