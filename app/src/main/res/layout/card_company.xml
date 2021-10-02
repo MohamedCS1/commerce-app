@@ -10,6 +10,7 @@
     app:cardElevation="4dp"
     android:id="@+id/card_product"
     android:gravity="center"
+    app:cardBackgroundColor="#F6F6F6"
     app:cardCornerRadius="10pt"
     android:layout_margin="2pt">
 
@@ -65,18 +66,18 @@
             android:textStyle="bold" />
 
 
-        <Button
-            android:id="@+id/bu_company_detailes"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="+ View Products"
-            android:layout_gravity="center"
-            android:textColor="#EE5F00"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
-            android:textStyle="normal"
-            android:textSize="8pt"
-            />
+<!--        <Button-->
+<!--            android:id="@+id/bu_company_detailes"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:gravity="center"-->
+<!--            android:text="+ View Products"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:textColor="#EE5F00"-->
+<!--            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"-->
+<!--            android:textStyle="normal"-->
+<!--            android:textSize="8pt"-->
+<!--            />-->
 
 
     </LinearLayout>

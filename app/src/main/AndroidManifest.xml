@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Phons">
         <activity
+            android:name="com.example.Settings.Settings"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
             android:name="com.example.Products.Products_activity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
