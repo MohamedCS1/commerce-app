@@ -37,6 +37,9 @@ class CompanyAdapter(val context:Context): RecyclerView.Adapter<CompanyAdapter.C
 
         Glide.with(context).load(url).placeholder(R.drawable.placeholderimg).into(holder.image_company)
 
+        val x =  Glide.with(context).load(url)
+        var image: ByteArray? = null
+
         holder.itemView.setOnClickListener {
             val intent = Intent(context ,Products_activity::class.java)
             context.startActivities(arrayOf(intent))
