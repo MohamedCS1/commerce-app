@@ -85,13 +85,13 @@ class ProductsViewModel():ViewModel() {
                             {
                                 if (product_image != " ")
                                 {
-                                    array_products.add(Product(product_id.toString() ,product_title.toString() ,product_description.toString() ,product_barcode.toString() ,product_price.toString() ,product_lastversion.toString() ,product_image.toString()))
+                                    array_products.add(Product(null ,product_id.toString() ,product_title.toString() ,product_description.toString() ,product_barcode.toString() ,product_price.toString() ,product_lastversion.toString() ,product_image.toString()))
                                     product_image = ""
 
                                 }
                                 else
                                 {
-                                    array_products.add(Product(product_id.toString() ,product_title.toString() ,product_description.toString() ,product_barcode.toString() ,product_price.toString() ,product_lastversion.toString() ,""))
+                                    array_products.add(Product(null ,product_id.toString() ,product_title.toString() ,product_description.toString() ,product_barcode.toString() ,product_price.toString() ,product_lastversion.toString() ,""))
                                 }
                             }
 

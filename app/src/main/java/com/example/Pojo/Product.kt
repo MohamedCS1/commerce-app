@@ -1,3 +1,7 @@
 package com.example.Pojo
 
-data class Product(val id:String ,val title:String ,val description:String ,val barcode:String ,val price:String ,val lastversion:String ,val image:String)
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "Product_table")
+data class Product(@PrimaryKey(autoGenerate = true) var unique_Id: Int?, var id:String, var title:String, var description:String, var barcode:String, var price:String, var lastversion:String, var image:String)

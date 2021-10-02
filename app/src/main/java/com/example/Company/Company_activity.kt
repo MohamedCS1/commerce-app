@@ -40,6 +40,7 @@ class Company_activity : AppCompatActivity() {
 
         val uiq = prf.getuiq()
 
+
         progress = findViewById(R.id.my_progressBar)
 
         tv_loading = findViewById(R.id.tv_loading)
@@ -48,7 +49,7 @@ class Company_activity : AppCompatActivity() {
 
         et_searchbar!!.isEnabled = false
 
-        CompanyViewModel = CompanyViewModel()
+        CompanyViewModel = CompanyViewModel(this)
 
         CompanyViewModel!!.getcompany(uiq)
 
@@ -76,6 +77,7 @@ class Company_activity : AppCompatActivity() {
                 et_searchbar!!.isEnabled = true
                 progress!!.visibility = View.GONE
                 tv_loading!!.visibility = View.GONE
+
                 adapter!!.setList(t!!)
             }
 
@@ -85,7 +87,7 @@ class Company_activity : AppCompatActivity() {
         adapter!!.onclickproduct(object :OnclicCompanyInterface{
             override fun onclickcompany(companiinfo: Companies) {
                 prf.insertuiq(uiq)
-                prf.insertcompid(companiinfo.compid)
+                prf.insertcompid(companiinfo.compid.toString())
             }
 
         })

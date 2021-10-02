@@ -1,18 +1,29 @@
 package com.example.Company
 
+import android.content.Context
 import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.Pojo.Companies
-import java.lang.Exception
+import kotlinx.coroutines.launch
 import java.net.HttpURLConnection
 import java.net.URL
 
-class CompanyViewModel:ViewModel() {
+
+
+class CompanyViewModel(val context: Context):ViewModel() {
 
     val MutableLiveDataCompaby = MutableLiveData<ArrayList<Companies>>()
 
     val array_company = arrayListOf<Companies>()
+
+    init {
+        viewModelScope.launch {
+
+        }
+
+    }
 
     fun getcompany(uiq:String)
     {
@@ -48,22 +59,18 @@ class CompanyViewModel:ViewModel() {
                             val finalarray = arrayListOf<String>()
 
                             var f = 0
-                            for (i in arraysplit)
-                            {
-                                if (i == "company" && f != 0)
-                                {
+                            for (i in arraysplit) {
+                                if (i == "company" && f != 0) {
                                     finalarray.add(" ")
                                     continue
                                 }
 
-                                if (i == "" || i == "  " || i == "   " || i == "data" || i == "/data" || i == "company" || i == "compid" || i == "company_title" || i == "lastversion" || i == "/lastversion"|| i == "/company" || i == "/compid" || i == "/company_title" || i == "image_link" || i == "/image_link")
-                                {
+                                if (i == "" || i == "  " || i == "   " || i == "data" || i == "/data" || i == "company" || i == "compid" || i == "company_title" || i == "lastversion" || i == "/lastversion" || i == "/company" || i == "/compid" || i == "/company_title" || i == "image_link" || i == "/image_link") {
 
                                     continue
                                 }
 
-                                if (i[0].toString() == "/")
-                                {
+                                if (i[0].toString() == "/") {
 
                                     finalarray.add(i)
                                     continue
@@ -73,20 +80,23 @@ class CompanyViewModel:ViewModel() {
                             }
 
 
-
                             fun insert()
                             {
                                 if (image_link != " ")
                                 {
-                                    array_company.add(Companies(compid.toString() ,company_title.toString() ,lastversion.toString() ,image_link.toString()))
+
+
+                                   array_company.add(Companies(null,compid.toString() ,company_title.toString() ,lastversion.toString() ,image_link.toString(),null))
+
                                     image_link = ""
 
                                 }
                                 else
                                 {
-                                    array_company.add(Companies(compid.toString() ,company_title.toString() ,lastversion.toString(),""))
+                                    array_company.add(Companies(null,compid.toString() ,company_title.toString() ,lastversion.toString(),"" ,null))
                                 }
                             }
+
 
 
                             var c = 0
@@ -135,7 +145,14 @@ class CompanyViewModel:ViewModel() {
 
                             }
                             insert()
-                            MutableLiveDataCompaby.postValue(array_company)
+                            if (array_company[0].compid.toString() == "null")
+                            {
+                                MutableLiveDataCompaby.postValue(Companies(null ,"null" ,"null" ,"null","null" ,null) as ArrayList<Companies>)
+                            }
+                            else
+                            {
+                                MutableLiveDataCompaby.postValue(array_company)
+                            }
                         }
                     }
                 }catch (ex: Exception)
