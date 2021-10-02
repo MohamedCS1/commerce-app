@@ -1,7 +1,9 @@
 package com.example.Products
 
 import android.os.Build
-import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.Pojo.Product
@@ -15,12 +17,15 @@ class ProductsViewModel():ViewModel() {
 
     val array_products = arrayListOf<Product>()
 
-    fun getProducts(uiq:String,company_id:String)
+    fun getProducts(uiq:String ,company_id:String ,progress:ProgressBar ,tv_loading:TextView)
     {
+        progress.visibility = View.VISIBLE
+        tv_loading.visibility = View.VISIBLE
         val t = Thread(Runnable {
             fun sendGet() {
                 val url = URL("https://app.mytasks.click/xml/?action=getproducts&uiq=$uiq&companyid=$company_id")
                 try {
+
                     with(url.openConnection() as HttpURLConnection) {
                         requestMethod = "GET"
 

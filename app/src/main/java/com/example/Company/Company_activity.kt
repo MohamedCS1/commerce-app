@@ -5,6 +5,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +26,8 @@ class Company_activity : AppCompatActivity() {
     var CompanyViewModel:CompanyViewModel? = null
     var rv_company:RecyclerView? = null
     var adapter:CompanyAdapter? = null
+    var progress:ProgressBar? = null
+    var tv_loading:TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +38,10 @@ class Company_activity : AppCompatActivity() {
         prf.prefcreate(this)
 
         val uiq = prf.getuiq()
+
+        progress = findViewById(R.id.my_progressBar)
+
+        tv_loading = findViewById(R.id.tv_loading)
 
         CompanyViewModel = CompanyViewModel()
 
@@ -53,6 +62,8 @@ class Company_activity : AppCompatActivity() {
 
         CompanyViewModel!!.MutableLiveDataCompaby.observe(this ,object : Observer<ArrayList<Companies>>{
             override fun onChanged(t: ArrayList<Companies>?) {
+                progress!!.visibility = View.GONE
+                tv_loading!!.visibility = View.GONE
                 adapter!!.setList(t!!)
             }
 

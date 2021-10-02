@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +19,8 @@ class Products_activity : AppCompatActivity() {
     var productsViewModel:ProductsViewModel? = null
     var adapter:ProductsAdapter? = null
     var rv_product:RecyclerView? = null
+    var progress:ProgressBar? = null
+    var tv_loading:TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,9 +33,13 @@ class Products_activity : AppCompatActivity() {
 
         val compid = prf.getcompid()
 
+        progress = findViewById(R.id.progressBar_product)
+
+        tv_loading = findViewById(R.id.tv_loadin_product)
+
         productsViewModel = ProductsViewModel()
 
-        productsViewModel!!.getProducts(uiq ,compid)
+        productsViewModel!!.getProducts(uiq ,compid ,progress!! ,tv_loading!!)
 
         adapter = ProductsAdapter(this)
 
@@ -49,6 +58,8 @@ class Products_activity : AppCompatActivity() {
             @SuppressLint("NotifyDataSetChanged")
             override fun onChanged(t: ArrayList<Product>?) {
                 Log.d("tt",t?.size.toString())
+                progress!!.visibility = View.GONE
+                tv_loading!!.visibility = View.GONE
                 adapter!!.setList(t!!)
             }
 

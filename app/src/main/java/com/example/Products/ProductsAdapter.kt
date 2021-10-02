@@ -26,9 +26,7 @@ class ProductsAdapter(val context: Context):RecyclerView.Adapter<ProductsAdapter
         holder.tv_product_title.text = arraylist[position].title
         holder.tv_product_id.text = arraylist[position].id
         holder.tv_product_price.text = arraylist[position].price
-
-        holder.image_link.layoutParams.height = 300
-        holder.image_link.layoutParams.width = 300
+        holder.tv_product_lastversion.text = arraylist[position].lastversion
 
         val url = "https://app.mytasks.click/${arraylist[position].image}"
 
@@ -44,6 +42,7 @@ class ProductsAdapter(val context: Context):RecyclerView.Adapter<ProductsAdapter
         val tv_product_title = itemView.findViewById<TextView>(R.id.tv_product_title)
         val tv_product_id = itemView.findViewById<TextView>(R.id.tv_product_id)
         val tv_product_price = itemView.findViewById<TextView>(R.id.tv_product_price)
+        val tv_product_lastversion = itemView.findViewById<TextView>(R.id.tv_product_lastversion)
         val image_link = itemView.findViewById<ImageView>(R.id.image_product)
     }
 
