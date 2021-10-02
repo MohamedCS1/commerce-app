@@ -1,14 +1,28 @@
 package com.example.Company
 
+import android.content.Context
 import android.os.Build
+import android.util.Base64
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.Pojo.Companies
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
+import java.net.URLConnection
+import kotlin.collections.ArrayList
+import android.graphics.Bitmap
 
-class CompanyViewModel:ViewModel() {
+import android.graphics.BitmapFactory
+
+import android.os.StrictMode
+import android.os.StrictMode.ThreadPolicy
+
+
+class CompanyViewModel(val context: Context):ViewModel() {
 
     val MutableLiveDataCompaby = MutableLiveData<ArrayList<Companies>>()
 
@@ -72,19 +86,49 @@ class CompanyViewModel:ViewModel() {
                                 f++
                             }
 
+                            fun recoverImageFromUrl(urlText: String?): String? {
+                                val newurl: URL
+                                val bitmap: Bitmap
+                                var base64: String? = ""
+                                try {
+                                    val policy = ThreadPolicy.Builder().permitAll().build()
+                                    StrictMode.setThreadPolicy(policy)
+                                    newurl = URL(urlText)
+                                    bitmap = BitmapFactory.decodeStream(
+                                        newurl.openConnection().getInputStream()
+                                    )
+                                    val outputStream = ByteArrayOutputStream()
+                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                                    base64 = Base64.encodeToString(
+                                        outputStream.toByteArray(),
+                                        Base64.DEFAULT
+                                    )
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
+                                return base64
+                            }
+
 
 
                             fun insert()
                             {
                                 if (image_link != " ")
                                 {
-                                    array_company.add(Companies(compid.toString() ,company_title.toString() ,lastversion.toString() ,image_link.toString()))
+//                                    val bytes = Glide.with(context)
+//                                        .`as`(ByteArray::class.java)
+//                                        .load("https://app.mytasks.click/${image_link}")
+//                                        .submit()
+//                                        .get()
+                                    val imagbyte = recoverImageFromUrl("https://app.mytasks.click${image_link}")
+
+                                    array_company.add(Companies(null,compid.toString() ,company_title.toString() ,lastversion.toString() ,image_link.toString(),imagbyte))
                                     image_link = ""
 
                                 }
                                 else
                                 {
-                                    array_company.add(Companies(compid.toString() ,company_title.toString() ,lastversion.toString(),""))
+                                    array_company.add(Companies(null,compid.toString() ,company_title.toString() ,lastversion.toString(),"" ,null))
                                 }
                             }
 
@@ -135,7 +179,14 @@ class CompanyViewModel:ViewModel() {
 
                             }
                             insert()
-                            MutableLiveDataCompaby.postValue(array_company)
+                            if (array_company[0].compid.toString() == "null")
+                            {
+                                MutableLiveDataCompaby.postValue(Companies(null ,"null" ,"null" ,"null","null" ,null) as ArrayList<Companies>)
+                            }
+                            else
+                            {
+                                MutableLiveDataCompaby.postValue(array_company)
+                            }
                         }
                     }
                 }catch (ex: Exception)

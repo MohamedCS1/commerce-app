@@ -50,7 +50,7 @@
                     app:srcCompat="@drawable/ic_settings" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/bu_import_data"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20sp"

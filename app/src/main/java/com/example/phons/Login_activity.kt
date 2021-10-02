@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import com.example.Data.PrefManage
 import com.example.Pojo.Login
 import com.example.Company.Company_activity
+import com.example.Settings.Settings
 
 class Login_activity : AppCompatActivity() {
 
@@ -61,7 +62,7 @@ class Login_activity : AppCompatActivity() {
                {
                    prf.prefcreate(this@Login_activity)
                    prf.insertuiq(t.uiq)
-                   val intent = Intent(this@Login_activity,Company_activity::class.java)
+                   val intent = Intent(this@Login_activity,Settings::class.java)
                    startActivity(intent)
                    Toast.makeText(this@Login_activity,"Login Successfully",Toast.LENGTH_SHORT).show()
                }
@@ -94,7 +95,7 @@ class Login_activity : AppCompatActivity() {
         val uiq = prf.getuiq()
         if (uiq.isNotEmpty())
         {
-            val intent = Intent(this@Login_activity,Company_activity::class.java)
+            val intent = Intent(this@Login_activity,Settings::class.java)
             intent.putExtra("uiq",uiq)
             startActivity(intent)
             finish()
