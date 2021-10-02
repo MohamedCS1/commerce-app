@@ -88,6 +88,28 @@
 
          </com.google.android.material.textfield.TextInputLayout>
 
+         <com.google.android.material.textfield.TextInputLayout
+
+             android:layout_width="match_parent"
+             android:layout_height="52dp"
+             app:hintEnabled="false"
+             android:layout_marginTop="7pt"
+             >
+             <EditText
+                 android:id="@+id/et_code"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:layout_gravity="center"
+                 android:paddingLeft="7pt"
+                 android:hint="Code"
+                 android:inputType="textPassword"
+                 android:autofillHints="emailAddress"
+                 android:background="@drawable/bg_info_login"
+                 >
+             </EditText>
+
+         </com.google.android.material.textfield.TextInputLayout>
+
          <androidx.cardview.widget.CardView
              android:id="@+id/bulogin"
              android:layout_width="wrap_content"

@@ -12,11 +12,11 @@ class LoginViewModel():ViewModel() {
 
     val MutableLiveDataLogin = MutableLiveData<Login>()
 
-    fun login(email:String ,password:String)
+    fun login(email:String ,password:String ,code:String)
     {
         val t = Thread(Runnable {
             fun sendGet() {
-                val url = URL("https://app.mytasks.click/xml/?action=login&code=samco&user=$email&pass=$password")
+                val url = URL("https://app.mytasks.click/xml/?action=login&code=$code&user=$email&pass=$password")
                 try {
                     with(url.openConnection() as HttpURLConnection) {
                         requestMethod = "GET"

@@ -19,6 +19,7 @@ class Login_activity : AppCompatActivity() {
     var et_email: EditText? = null
     var et_password: EditText? = null
     var bu_login: CardView? = null
+    var et_code: EditText? = null
 
     var loginviewmodel: LoginViewModel? = null
 
@@ -29,6 +30,7 @@ class Login_activity : AppCompatActivity() {
         et_email = findViewById(R.id.et_email)
         et_password = findViewById(R.id.et_password)
         bu_login = findViewById(R.id.bulogin)
+        et_code = findViewById(R.id.et_code)
 
         loginviewmodel = LoginViewModel()
 
@@ -42,12 +44,12 @@ class Login_activity : AppCompatActivity() {
         bu_login!!.setOnClickListener {
 
 
-            if (et_email!!.text.isNotEmpty() && et_password!!.text.isNotEmpty())
+            if (et_email!!.text.isNotEmpty() && et_password!!.text.isNotEmpty() && et_code!!.text.isNotEmpty())
             {
                 p.show()
                 p.setCancelable(false)
                 p.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-                loginviewmodel!!.login(et_email!!.text.toString() ,et_password!!.text.toString())
+                loginviewmodel!!.login(et_email!!.text.toString() ,et_password!!.text.toString() ,et_code!!.text.toString())
             }
 
         }
