@@ -7,7 +7,8 @@ import androidx.room.RoomDatabase
 import com.example.Company.CompanyDao
 import com.example.Pojo.Companies
 
-@Database(version = 7 ,entities = [Companies::class])
+
+@Database(entities = [Companies::class], version = 5)
 abstract class CompanyDatabase : RoomDatabase() {
     abstract fun CompanyDao(): CompanyDao?
 
@@ -16,6 +17,7 @@ abstract class CompanyDatabase : RoomDatabase() {
         @Synchronized fun getInstance(context: Context): CompanyDatabase? {
             if (instance == null) {
                 instance = Room.databaseBuilder(context.applicationContext, CompanyDatabase::class.java, "company_database")
+                    .fallbackToDestructiveMigration()
                     .build()
             }
             return instance

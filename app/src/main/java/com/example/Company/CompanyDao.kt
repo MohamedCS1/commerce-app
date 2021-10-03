@@ -13,7 +13,11 @@ interface CompanyDao {
     fun insertCompany(company:Companies)
 
     @Query("select * from company_table")
+<<<<<<< HEAD
     fun getcompanys():List<Companies>
+=======
+    fun getproduct():List<Companies>
+>>>>>>> origin/main
 
     @Query("delete from company_table")
     fun claer_db()
