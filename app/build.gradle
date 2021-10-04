@@ -1,8 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-}
 
+}
+apply plugin: 'kotlin-kapt'
 android {
     compileSdk 30
 
@@ -55,7 +56,9 @@ dependencies {
 
    // Room
     implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt("androidx.room:room-compiler:$room_version")
+
+    implementation 'com.squareup.picasso:picasso:2.3.2'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 

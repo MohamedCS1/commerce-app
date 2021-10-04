@@ -61,6 +61,9 @@ class Login_activity : AppCompatActivity() {
                if (t!!.status == "1")
                {
                    prf.prefcreate(this@Login_activity)
+                   prf.insertemail(et_email!!.text.toString())
+                   prf.insertpassword(et_password!!.text.toString())
+                   prf.insertcode(et_code!!.text.toString())
                    prf.insertuiq(t.uiq)
                    val intent = Intent(this@Login_activity,Settings::class.java)
                    startActivity(intent)

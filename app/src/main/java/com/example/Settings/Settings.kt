@@ -2,7 +2,6 @@ package com.example.Settings
 
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -24,13 +23,21 @@ import android.graphics.drawable.Drawable
 import android.graphics.Bitmap
 
 import android.os.Environment
+import com.example.Data.ProductDatabase
+import com.example.Pojo.Login
+import com.example.Pojo.Product
+import com.example.Products.ProductsViewModel
+import com.example.phons.LoginViewModel
 
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Picasso.LoadedFrom
 import com.squareup.picasso.Target
+import kotlinx.coroutines.android.awaitFrame
+import kotlinx.coroutines.awaitCancellation
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.lang.Exception
 
 
 class Settings : AppCompatActivity() {
@@ -38,6 +45,14 @@ class Settings : AppCompatActivity() {
     var bu_import_data:Button? = null
     var companydatabase:CompanyDatabase? = null
     var CompanyViewModel: CompanyViewModel? = null
+
+
+    var productdatabase:ProductDatabase? = null
+    var ProductViewModel: ProductsViewModel? = null
+
+    var loginviewmodel: LoginViewModel? = null
+
+
     var fileUri: String? = null
 
     var CODEWRITE = 120
@@ -53,7 +68,10 @@ class Settings : AppCompatActivity() {
 
         bu_import_data = findViewById(R.id.bu_import_data)
 
-
+        if (ContextCompat.checkSelfPermission(this ,android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this ,arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) ,CODEWRITE)
+        }
 
         bu_import_data!!.setOnClickListener {
 
@@ -64,16 +82,32 @@ class Settings : AppCompatActivity() {
             }
             else
             {
+                loginviewmodel = LoginViewModel()
 
-                companydatabase = CompanyDatabase.getInstance(this)
+                loginviewmodel!!.login(prf.getemail() ,prf.getpassword() ,prf.getcode())
 
-                CompanyViewModel = CompanyViewModel(this)
+                loginviewmodel!!.MutableLiveDataLogin.observe(this ,object :Observer<Login>{
+                    override fun onChanged(t: Login?) {
+                        if (t!!.status == "1")
+                        {
+                            prf.prefcreate(this@Settings)
+                            prf.insertuiq(t.uiq)
 
-                CompanyViewModel!!.getcompany(uiq)
+                            val nuiq = prf.getuiq()
+                            companydatabase = CompanyDatabase.getInstance(this@Settings)
 
-                val array_id = arrayListOf<String>()
+                            productdatabase = ProductDatabase.getInstance(this@Settings)
 
-                CompanyViewModel!!.MutableLiveDataCompaby.observe(this,
+                            CompanyViewModel = CompanyViewModel(this@Settings)
+
+                            ProductViewModel = ProductsViewModel()
+
+                            CompanyViewModel!!.getcompany(nuiq)
+
+                            val array_id = arrayListOf<String>()
+
+
+                CompanyViewModel!!.MutableLiveDataCompaby.observe(this@Settings,
                     object : Observer<ArrayList<Companies>> {
 
                         override fun onChanged(t: ArrayList<Companies>?) {
@@ -92,16 +126,54 @@ class Settings : AppCompatActivity() {
                                     companydatabase?.CompanyDao()?.insertCompany(i)
                                 }
 
-                                for (i in array_id)
-                                {
-                                    Log.d("compid" ,i)
-                                }
-                            }).start()
 
+                            }).start()
 
                         }
 
                     })
+                            for (i in array_id)
+                            {
+
+                                ProductViewModel!!.getProducts(uiq ,i ,null ,null)
+                                Thread.sleep(300)
+                                Log.d("compid" ,i)
+
+                            }
+                ProductViewModel!!.MutableLiveDataProducts.observe(this@Settings ,
+                    object :Observer<ArrayList<Product>>
+                    {
+                        override fun onChanged(t: ArrayList<Product>?) {
+                            Thread(Runnable {
+                                try {
+
+                                    val it: MutableIterator<Product> = t!!.iterator()
+                                    while (it.hasNext()) {
+                                        val value = it.next()
+                                        if (value.image != "")
+                                        {
+                                            runOnUiThread {
+                                                SaveImage("https://app.mytasks.click${value.image}" ,value.id)
+                                            }
+                                        }
+                                        productdatabase?.ProductDao()?.insertProduct(value)
+                                    }
+                                }catch (ex:Exception)
+                                {
+                                    print(ex)
+                                }
+
+                            }).start()
+                        }
+
+                    })
+
+
+                        }
+                    }
+
+                })
+
 
             }
 

@@ -8,7 +8,7 @@ import com.example.Company.CompanyDao
 import com.example.Pojo.Companies
 
 
-@Database(entities = [Companies::class], version = 5)
+@Database(entities = [Companies::class], version = 11)
 abstract class CompanyDatabase : RoomDatabase() {
     abstract fun CompanyDao(): CompanyDao?
 

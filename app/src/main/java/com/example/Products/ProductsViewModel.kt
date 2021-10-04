@@ -17,10 +17,10 @@ class ProductsViewModel():ViewModel() {
 
     val array_products = arrayListOf<Product>()
 
-    fun getProducts(uiq:String ,company_id:String ,progress:ProgressBar ,tv_loading:TextView)
+    fun getProducts(uiq:String, company_id:String, progress: ProgressBar?, tv_loading: TextView?)
     {
-        progress.visibility = View.VISIBLE
-        tv_loading.visibility = View.VISIBLE
+        progress?.visibility = View.VISIBLE
+        tv_loading?.visibility = View.VISIBLE
         val t = Thread(Runnable {
             fun sendGet() {
                 val url = URL("https://app.mytasks.click/xml/?action=getproducts&uiq=$uiq&companyid=$company_id")
@@ -161,6 +161,7 @@ class ProductsViewModel():ViewModel() {
                             }
                             insert()
                             MutableLiveDataProducts.postValue(array_products)
+
 
                         }
                     }

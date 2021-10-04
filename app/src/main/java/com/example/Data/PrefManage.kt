@@ -18,6 +18,12 @@ class PrefManage {
 
     private val key_compid = "compid"
 
+    private val key_email = "email"
+
+    private val key_password = "password"
+
+    private val key_code = "code"
+
     var context:Context? = null
 
     @SuppressLint("CommitPrefEdits")
@@ -49,4 +55,38 @@ class PrefManage {
     {
         return pref!!.getString(key_compid ,"").toString()
     }
+
+    fun insertemail(email:String)
+    {
+        editor?.putString(key_email ,email)
+        editor?.apply()
+    }
+
+    fun getemail():String
+    {
+        return pref!!.getString(key_email ,"").toString()
+    }
+
+    fun insertpassword(password:String)
+    {
+        editor?.putString(key_password ,password)
+        editor?.apply()
+    }
+
+    fun getpassword():String
+    {
+        return pref!!.getString(key_password ,"").toString()
+    }
+
+    fun insertcode(code: String)
+    {
+        editor?.putString(key_code ,code)
+        editor?.apply()
+    }
+
+    fun getcode():String
+    {
+        return pref!!.getString(key_code ,"").toString()
+    }
+
 }
