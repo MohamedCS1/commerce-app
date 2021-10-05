@@ -1,45 +1,68 @@
 package com.example.Products
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.ProgressBar
-import android.widget.TextView
-import androidx.lifecycle.Observer
+import android.util.Pair
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.Data.PrefManage
+import com.example.Data.ProductDatabase
 import com.example.Pojo.Product
 import com.example.phons.R
 
 class Products_activity : AppCompatActivity() {
 
-    var productsViewModel:ProductsViewModel? = null
+
     var adapter:ProductsAdapter? = null
     var rv_product:RecyclerView? = null
-    var progress:ProgressBar? = null
-    var tv_loading:TextView? = null
+    var productdatabase: ProductDatabase? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_products)
 
-        val prf = PrefManage()
-        prf.prefcreate(this)
+        productdatabase = ProductDatabase.getInstance(this)
 
-        val uiq = prf.getuiq()
+        Thread(Runnable {
+            val arr = productdatabase?.ProductDao()?.getallproduct()!!
+          val k =  arr.distinctBy { Pair(it.barcode ,it.barcode) }
 
-        val compid = prf.getcompid()
+            adapter!!.setList(k as ArrayList<Product>)
 
-        progress = findViewById(R.id.progressBar_product)
+//           val arr2 = productdatabase?.ProductDao()?.getallproduct()!!.toTypedArray()
 
-        tv_loading = findViewById(R.id.tv_loadin_product)
+//            val arr3 = arrayListOf<Product>()
+//            for (i in arr)
+//            {
+//                for (j in arr2)
+//                {
+//                    if (i.lastversion != i.lastversion)
+//                    {
+//
+//
+//
+//                    }
+//                }
+//            }
+//            for (i in arr3) print(i)
 
-        productsViewModel = ProductsViewModel()
+//            arr2.add(arr)
 
-        productsViewModel!!.getProducts(uiq ,compid ,progress!! ,tv_loading!!)
+//            for (i in arr)
+//            {
+//                if (i.image != " ")
+//                {
+//                    arr1.add(Product(null ,i.id.toString() ,i.title.toString() ,i.description.toString() ,i.barcode.toString() ,i.price.toString() ,i.lastversion.toString() ,i.image.toString()))
+//
+//                }
+//                else
+//                {
+//                    arr1.add(Product(null ,i.id.toString()  ,i.title.toString() ,i.description.toString() ,i.barcode.toString() ,i.price.toString() ,i.lastversion.toString() ,""))
+//                }
+//
+//            }
+        }
+        ).start()
 
         adapter = ProductsAdapter(this)
 
@@ -49,21 +72,13 @@ class Products_activity : AppCompatActivity() {
 
         rv_product!!.adapter = adapter
 
+        val arr1 = arrayListOf<Product>()
+
+
         rv_product!!.layoutManager = lm
 
         lm.isSmoothScrolling
 
-//        productsViewModel!!.MutableLiveDataProducts.observe(this ,object :Observer<ArrayList<Product>>
-//        {
-//            @SuppressLint("NotifyDataSetChanged")
-//            override fun onChanged(t: ArrayList<Product>?) {
-//                Log.d("tt",t?.size.toString())
-//                progress!!.visibility = View.GONE
-//                tv_loading!!.visibility = View.GONE
-//                adapter!!.setList(t!!)
-//            }
-//
-//        })
     }
 
 

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
@@ -12,6 +13,7 @@ import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.Data.CompanyDatabase
 import com.example.Data.PrefManage
 import com.example.Pojo.Companies
 import com.example.Settings.Settings
@@ -21,37 +23,45 @@ import com.example.phons.R
 class Company_activity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
 
-    var CompanyViewModel:CompanyViewModel? = null
     var rv_company:RecyclerView? = null
     var adapter:CompanyAdapter? = null
-    var progress:ProgressBar? = null
-    var tv_loading:TextView? = null
     var bu_go_to_settengs:CardView? = null
     var et_searchbar:EditText? = null
+
+    var companydatabase: CompanyDatabase? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_company)
+        companydatabase = CompanyDatabase.getInstance(this)
+
+        val arr1 = arrayListOf<Companies>()
+        Thread(Runnable {
+                val arr = companydatabase?.CompanyDao()?.getallcompany()
+
+                for (i in arr!!)
+                {
+                    if (i.image_link!= " ")
+                    {
+
+                        arr1.add(Companies(null,i.compid.toString() ,i.company_title.toString() ,i.lastversion.toString() ,i.image_link.toString(),null))
 
 
-        val prf = PrefManage()
-        prf.prefcreate(this)
+                    }
+                    else
+                    {
+                        arr1.add(Companies(null,i.compid.toString() ,i.company_title.toString() ,i.lastversion.toString(),"" ,null))
+                    }
 
-        val uiq = prf.getuiq()
+                }
+            }
+        ).start()
 
-
-        progress = findViewById(R.id.my_progressBar)
-
-        tv_loading = findViewById(R.id.tv_loading)
 
         et_searchbar = findViewById(R.id.et_searchbar)
 
         et_searchbar!!.isEnabled = false
-
-        CompanyViewModel = CompanyViewModel(this)
-
-        CompanyViewModel!!.getcompany(uiq)
 
         bu_go_to_settengs = findViewById(R.id.bu_gotoseting)
 
@@ -70,27 +80,9 @@ class Company_activity : AppCompatActivity() {
         rv_company!!.layoutManager = lm
 
 
+        adapter!!.setList(arr1)
         lm.isSmoothScrolling
 
-        CompanyViewModel!!.MutableLiveDataCompaby.observe(this ,object : Observer<ArrayList<Companies>>{
-            override fun onChanged(t: ArrayList<Companies>?) {
-                et_searchbar!!.isEnabled = true
-                progress!!.visibility = View.GONE
-                tv_loading!!.visibility = View.GONE
-
-                adapter!!.setList(t!!)
-            }
-
-        })
-
-
-        adapter!!.onclickproduct(object :OnclicCompanyInterface{
-            override fun onclickcompany(companiinfo: Companies) {
-                prf.insertuiq(uiq)
-                prf.insertcompid(companiinfo.compid.toString())
-            }
-
-        })
 
     }
 

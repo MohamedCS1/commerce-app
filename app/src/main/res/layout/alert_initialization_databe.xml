@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:layout_gravity="center"
+    android:layout_weight="0"
     android:background="@drawable/bg_info_login"
     android:padding="13sp">
 
@@ -23,8 +24,7 @@
         android:layout_weight="0"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="Please wait...\n
-Database Initialization"
+        android:text="رجاءاً إنتظر قليلاً..."
         android:textStyle="bold"
         android:textColor="#94000000"/>
 

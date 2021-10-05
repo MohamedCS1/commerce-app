@@ -20,4 +20,7 @@ interface CompanyDao {
 
     @Query("delete from company_table WHERE unique_Id = :uniq_id")
     fun deleteByUserId(uniq_id: Long)
+
+    @Query("select * from company_table")
+    fun getallcompany():List<Companies>
 }

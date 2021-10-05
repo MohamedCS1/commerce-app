@@ -3,16 +3,18 @@ package com.example.Company
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.Pojo.Companies
 import com.example.Products.Products_activity
 import com.example.phons.R
+import com.squareup.picasso.Picasso
+import java.io.File
 
 class CompanyAdapter(val context:Context): RecyclerView.Adapter<CompanyAdapter.CompanyViewHolder>() {
 
@@ -35,10 +37,10 @@ class CompanyAdapter(val context:Context): RecyclerView.Adapter<CompanyAdapter.C
 
         val url = "https://app.mytasks.click/${arraylist[position].image_link}"
 
-        Glide.with(context).load(url).placeholder(R.drawable.placeholderimg).into(holder.image_company)
+//        Glide.with(context).load(url).placeholder(R.drawable.placeholderimg).into(holder.image_company)
 
-        val x =  Glide.with(context).load(url)
-        var image: ByteArray? = null
+
+        Picasso.with(context).load( File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),"Samco/${arraylist[position].lastversion}.jpg")).placeholder(R.drawable.placeholderimg).into(holder.image_company)
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context ,Products_activity::class.java)

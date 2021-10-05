@@ -98,7 +98,7 @@ class Login_activity : AppCompatActivity() {
         val uiq = prf.getuiq()
         if (uiq.isNotEmpty())
         {
-            val intent = Intent(this@Login_activity,Settings::class.java)
+            val intent = Intent(this@Login_activity,Company_activity::class.java)
             intent.putExtra("uiq",uiq)
             startActivity(intent)
             finish()

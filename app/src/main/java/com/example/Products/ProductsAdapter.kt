@@ -2,15 +2,17 @@ package com.example.Products
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.Pojo.Product
 import com.example.phons.R
+import com.squareup.picasso.Picasso
+import java.io.File
 
 class ProductsAdapter(val context: Context):RecyclerView.Adapter<ProductsAdapter.ProductViewHolder>() {
 
@@ -30,7 +32,8 @@ class ProductsAdapter(val context: Context):RecyclerView.Adapter<ProductsAdapter
 
         val url = "https://app.mytasks.click/${arraylist[position].image}"
 
-        Glide.with(context).load(url).placeholder(R.drawable.placeholderimg).into(holder.image_link)
+        Picasso.with(context).load( File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),"Samco/${arraylist[position].lastversion}.jpg")).placeholder(R.drawable.placeholderimg).into(holder.image_product)
+
     }
 
     override fun getItemCount(): Int {
@@ -43,11 +46,11 @@ class ProductsAdapter(val context: Context):RecyclerView.Adapter<ProductsAdapter
         val tv_product_id = itemView.findViewById<TextView>(R.id.tv_product_id)
         val tv_product_price = itemView.findViewById<TextView>(R.id.tv_product_price)
         val tv_product_lastversion = itemView.findViewById<TextView>(R.id.tv_product_lastversion)
-        val image_link = itemView.findViewById<ImageView>(R.id.image_product)
+        val image_product = itemView.findViewById<ImageView>(R.id.image_product)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setList(ArrayList:ArrayList<Product>)
+    fun setList(ArrayList: ArrayList<Product>)
     {
         this.arraylist = ArrayList
         notifyDataSetChanged()

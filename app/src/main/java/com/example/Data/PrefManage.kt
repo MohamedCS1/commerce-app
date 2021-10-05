@@ -24,6 +24,8 @@ class PrefManage {
 
     private val key_code = "code"
 
+    private val key_is_one_page = "on_page"
+
     var context:Context? = null
 
     @SuppressLint("CommitPrefEdits")
@@ -87,6 +89,17 @@ class PrefManage {
     fun getcode():String
     {
         return pref!!.getString(key_code ,"").toString()
+    }
+
+    fun insert_one_page(boolean: Boolean)
+    {
+        editor?.putBoolean(key_is_one_page ,boolean)
+        editor?.apply()
+    }
+
+    fun get_is_one():Boolean
+    {
+        return pref!!.getBoolean(key_is_one_page,false)
     }
 
 }

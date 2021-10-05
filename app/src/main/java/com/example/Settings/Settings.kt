@@ -21,6 +21,10 @@ import android.provider.Settings
 import android.graphics.drawable.Drawable
 import android.graphics.Bitmap
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
+import android.view.View
+import androidx.appcompat.app.AlertDialog
 import com.example.Data.ProductDatabase
 import com.example.Pojo.Login
 import com.example.Pojo.Product
@@ -34,7 +38,10 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.lang.Exception
 import java.util.*
+import java.util.concurrent.Executors
 import kotlin.collections.ArrayList
+import com.example.Company.Company_activity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class Settings : AppCompatActivity() {
@@ -50,8 +57,8 @@ class Settings : AppCompatActivity() {
     var loginviewmodel: LoginViewModel? = null
     var bu_procces_database:Button? = null
 
-
     var fileUri: String? = null
+    var bu_back:FloatingActionButton? = null
 
     var CODEWRITE = 120
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,43 +66,94 @@ class Settings : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
 
+        bu_back?.setOnClickListener {
+            onBackPressed()
+        }
+
+
+        val dialogdatabase = AlertDialog.Builder(this)
+        val view:View = View.inflate(this ,R.layout.alert_initialization_databe ,null)
+        val d = dialogdatabase.setView(view).create()
+        d.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val dialog_import = AlertDialog.Builder(this)
+        val view_import:View = View.inflate(this ,R.layout.alert_data_daownload ,null)
+        val d_import = dialog_import.setView(view_import).create()
+        d_import.setCancelable(false)
+        dialog_import.setCancelable(false)
+        d_import.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val myExecutor1 = Executors.newSingleThreadExecutor()
+        val myHandler1 = Handler(Looper.getMainLooper())
+
+        myExecutor1.execute {
+            myHandler1.post {
+                d.show()
+            }
+            companydatabase = CompanyDatabase.getInstance(this@Settings)
+
+            productdatabase = ProductDatabase.getInstance(this@Settings)
+
+            myExecutor1.shutdown()
+            if (myExecutor1.isShutdown)
+            {
+                myHandler1.post {
+                    d.setCancelable(true)
+                    d.dismiss()
+                }
+            }
+        }
+
+
         val prf = PrefManage()
         prf.prefcreate(this)
-
-        companydatabase = CompanyDatabase.getInstance(this@Settings)
-
-        productdatabase = ProductDatabase.getInstance(this@Settings)
 
         bu_import_data = findViewById(R.id.bu_import_data)
 
         bu_procces_database = findViewById(R.id.bu_process_database)
 
         bu_procces_database!!.setOnClickListener {
-            Thread(Runnable {
 
+            d.show()
+            d.setCancelable(false)
+            val myExecutor = Executors.newSingleThreadExecutor()
+            val myHandler = Handler(Looper.getMainLooper())
+
+            myExecutor.execute {
                 val arrayid_product = productdatabase?.ProductDao()?.getallid()
-
                 arrayid_product?.forEach {
                     productdatabase?.ProductDao()?.deleteByUserId(it.toLong())
                 }
 
                 val arrayid_company = companydatabase?.CompanyDao()?.getallid()
-
                 arrayid_company?.forEach {
                     companydatabase?.CompanyDao()?.deleteByUserId(it.toLong())
+
                 }
-
-
-            }).start()
+                myExecutor.shutdown()
+                if (myExecutor.isShutdown)
+                {
+                    myHandler.post {
+                        d.setCancelable(true)
+                        d.dismiss()
+                        Toast.makeText(this ,"تم تهيئة قاعدة البيانات بنجاح" ,Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
 
         }
+
+
 
         if (ContextCompat.checkSelfPermission(this ,android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
         {
             ActivityCompat.requestPermissions(this ,arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) ,CODEWRITE)
         }
 
+
+
         bu_import_data!!.setOnClickListener {
+
 
 
             if (ContextCompat.checkSelfPermission(this ,android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
@@ -105,19 +163,18 @@ class Settings : AppCompatActivity() {
             else
             {
 
-
                 loginviewmodel = LoginViewModel()
 
                 loginviewmodel!!.login(prf.getemail() ,prf.getpassword() ,prf.getcode())
 
                 loginviewmodel!!.MutableLiveDataLogin.observe(this ,object :Observer<Login>{ override fun onChanged(t: Login?) {
-                        if (t!!.status == "1")
+                    if (t!!.status == "1")
                         {
                             prf.prefcreate(this@Settings)
                             prf.insertuiq(t.uiq)
 
                             val nuiq = prf.getuiq()
-
+                            prf.insert_one_page(true)
 
                             CompanyViewModel = CompanyViewModel(this@Settings)
 
@@ -126,52 +183,77 @@ class Settings : AppCompatActivity() {
                             CompanyViewModel!!.getcompany(nuiq)
 
 
+                            d_import.setCancelable(false)
+                            d_import.show()
 
-                CompanyViewModel!!.MutableLiveDataCompaby.observe(this@Settings,
-                    object : Observer<ArrayList<Companies>> { override fun onChanged(t: ArrayList<Companies>?) {
-                  Thread(Runnable() {
-                                Log.d("chang", t.toString())
-
-                                for (i in t!!) {
-                                    ProductViewModel!!.getProducts(nuiq ,i.compid.toString() ,null ,null)
-
-                                     if (i.image_link != "")
-                                     {
-                                        runOnUiThread {
-                                            SaveImage("https://app.mytasks.click${i.image_link}" ,i.compid.toString())
-
-                                        }
-                                     }
-                                    companydatabase?.CompanyDao()?.insertCompany(i)
+                            val timer = Timer()
+                            timer.schedule(object : TimerTask() {
+                                override fun run() {
+                                    d_import.dismiss()
+                                    timer.cancel()
+                                    startActivity(Intent(this@Settings ,Company_activity::class.java))
                                 }
-                      t.clear()
+                            }, 15000)
+
+                            CompanyViewModel!!.MutableLiveDataCompaby.observe(this@Settings, object : Observer<ArrayList<Companies>> { override fun onChanged(t: ArrayList<Companies>?) { Thread(Runnable() {
+
+                                try {
+                                    for (i in t!!) {
+                                        ProductViewModel!!.getProducts(
+                                            nuiq,
+                                            i.compid.toString(),
+                                            null,
+                                            null
+                                        )
+
+                                        if (i.image_link != "")
+                                        {
+                                            runOnUiThread {
+                                                SaveImage("https://app.mytasks.click${i.image_link}" ,i.lastversion.toString())
+
+                                            }
+                                        }
+                                        companydatabase?.CompanyDao()?.insertCompany(i)
+                                    }
+                                }catch (ex:Exception){
+
+                                    runOnUiThread { Toast.makeText(this@Settings ,ex.toString() ,Toast.LENGTH_LONG).show() }
+                                }
+
+
                   }).start()
                     }
 
-                    })
+               })
 
-
+                            var t1:Thread? = null
                 ProductViewModel!!.MutableLiveDataProducts.observe(this@Settings ,object :Observer<ArrayList<Product>>
                     {
                         override fun onChanged(t: ArrayList<Product>?) {
-                            Thread(Runnable {
+                          t1 =  Thread(Runnable {
+
                                 try {
                                     for (i in t!!)
                                     {
                                         if (i.image != "")
                                         {
                                             runOnUiThread {
-                                                SaveImage("https://app.mytasks.click${i.image}" ,i.id)
+                                                SaveImage("https://app.mytasks.click${i.image}" ,i.lastversion)
                                             }
                                         }
                                         productdatabase?.ProductDao()?.insertProduct(i)
 
                                     }
+
+
                                 }catch (ex:Exception)
                                 {
+                                    runOnUiThread { Toast.makeText(this@Settings ,ex.toString() ,Toast.LENGTH_LONG).show() }
                                 }
 
-                            }).start()
+                            })
+                            t1!!.start()
+
                         }
 
                     })
@@ -187,16 +269,19 @@ class Settings : AppCompatActivity() {
 
   }
 
-    fun SaveImage(url: String? ,company_id: String) {
+    fun SaveImage(url: String? ,lastversion: String) {
         Picasso.with(applicationContext).load(url).into(object : Target {
             override fun onBitmapLoaded(bitmap: Bitmap?, from: LoadedFrom?) {
                 try {
                     val mydir =
                         File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),"Samco")
+                    Log.d("path",mydir.toString())
                     if (!mydir.exists()) {
                         mydir.mkdirs()
                     }
-                    fileUri = mydir.getAbsolutePath() + File.separator + company_id + ".jpg"
+                    fileUri = mydir.getAbsolutePath() + File.separator + lastversion + ".jpg"
+
+                    Log.d("path",fileUri.toString())
                     val outputStream = FileOutputStream(fileUri)
                     bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
                     outputStream.flush()
@@ -204,7 +289,6 @@ class Settings : AppCompatActivity() {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
-                Toast.makeText(applicationContext, "Image Downloaded", Toast.LENGTH_LONG).show()
             }
 
             override fun onBitmapFailed(errorDrawable: Drawable?) {

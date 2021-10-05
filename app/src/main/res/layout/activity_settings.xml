@@ -45,7 +45,6 @@
                     android:id="@+id/imageView"
                     android:layout_width="50sp"
                     android:layout_height="50sp"
-
                     android:layout_marginTop="20sp"
                     app:srcCompat="@drawable/ic_settings" />
 
@@ -64,20 +63,49 @@
                     android:textSize="17sp"
                     app:cornerRadius="8sp" />
 
-                <Button
-                    android:id="@+id/bu_process_database"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:layout_marginTop="20sp"
-                    android:backgroundTint="#D5F44336"
-                    android:drawableRight="@drawable/ic_procces"
-                    android:drawablePadding="15sp"
-                    android:paddingLeft="20sp"
-                    android:paddingRight="20sp"
-                    android:text="تهيئة قاعدة البيانات"
-                    android:textColor="@color/white"
-                    android:textSize="17sp"
-                    app:cornerRadius="8sp" />
+                    android:padding="10sp"
+                    android:background="@drawable/bg_info_login"
+                    android:gravity="center">
+                    <Button
+                        android:id="@+id/bu_process_database"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#D5F44336"
+                        android:drawableRight="@drawable/ic_procces"
+                        android:drawablePadding="15sp"
+                        android:paddingLeft="20sp"
+                        android:layout_gravity="center"
+                        android:paddingRight="20sp"
+                        android:text="تهيئة قاعدة البيانات"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"
+                        app:cornerRadius="8sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="يستخدم هذا الزر قبل رفع البيانات"
+                        android:textColor="@color/black"
+                        android:textSize="16sp">
+
+                    </TextView>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="تأكد من وجود إنترنت"
+                        android:textSize="16sp"
+                        android:textColor="#C6FF1100">
+
+                    </TextView>
+                </LinearLayout>
 
             </LinearLayout>
 

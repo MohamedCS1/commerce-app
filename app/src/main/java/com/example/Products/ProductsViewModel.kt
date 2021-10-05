@@ -1,6 +1,8 @@
 package com.example.Products
 
+import android.app.AlertDialog
 import android.os.Build
+import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -10,6 +12,10 @@ import com.example.Pojo.Product
 import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
+import androidx.lifecycle.LiveData
+
+
+
 
 class ProductsViewModel():ViewModel() {
 
@@ -168,10 +174,13 @@ class ProductsViewModel():ViewModel() {
                 }catch (ex: Exception)
                 {
                 }
+
+
             }
             sendGet()
         })
         t.start()
+
     }
 
 }
