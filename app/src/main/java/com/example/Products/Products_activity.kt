@@ -53,17 +53,17 @@ class Products_activity : AppCompatActivity() {
 
         lm.isSmoothScrolling
 
-        productsViewModel!!.MutableLiveDataProducts.observe(this ,object :Observer<ArrayList<Product>>
-        {
-            @SuppressLint("NotifyDataSetChanged")
-            override fun onChanged(t: ArrayList<Product>?) {
-                Log.d("tt",t?.size.toString())
-                progress!!.visibility = View.GONE
-                tv_loading!!.visibility = View.GONE
-                adapter!!.setList(t!!)
-            }
-
-        })
+//        productsViewModel!!.MutableLiveDataProducts.observe(this ,object :Observer<ArrayList<Product>>
+//        {
+//            @SuppressLint("NotifyDataSetChanged")
+//            override fun onChanged(t: ArrayList<Product>?) {
+//                Log.d("tt",t?.size.toString())
+//                progress!!.visibility = View.GONE
+//                tv_loading!!.visibility = View.GONE
+//                adapter!!.setList(t!!)
+//            }
+//
+//        })
     }
 
 

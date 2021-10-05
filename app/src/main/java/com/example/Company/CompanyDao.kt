@@ -15,6 +15,9 @@ interface CompanyDao {
     @Query("select * from company_table")
     fun getcompanys():List<Companies>
 
-    @Query("delete from company_table")
-    fun claer_db()
+    @Query("select unique_Id from company_table")
+    fun getallid():List<Int>
+
+    @Query("delete from company_table WHERE unique_Id = :uniq_id")
+    fun deleteByUserId(uniq_id: Long)
 }

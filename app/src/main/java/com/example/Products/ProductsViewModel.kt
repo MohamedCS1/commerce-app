@@ -161,10 +161,10 @@ class ProductsViewModel():ViewModel() {
                             }
                             insert()
                             MutableLiveDataProducts.postValue(array_products)
-
-
                         }
+
                     }
+
                 }catch (ex: Exception)
                 {
                 }

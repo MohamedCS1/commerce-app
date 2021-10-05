@@ -19,25 +19,22 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
 import android.graphics.drawable.Drawable
-
 import android.graphics.Bitmap
-
 import android.os.Environment
 import com.example.Data.ProductDatabase
 import com.example.Pojo.Login
 import com.example.Pojo.Product
 import com.example.Products.ProductsViewModel
 import com.example.phons.LoginViewModel
-
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.Picasso.LoadedFrom
 import com.squareup.picasso.Target
-import kotlinx.coroutines.android.awaitFrame
-import kotlinx.coroutines.awaitCancellation
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.lang.Exception
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class Settings : AppCompatActivity() {
@@ -51,6 +48,7 @@ class Settings : AppCompatActivity() {
     var ProductViewModel: ProductsViewModel? = null
 
     var loginviewmodel: LoginViewModel? = null
+    var bu_procces_database:Button? = null
 
 
     var fileUri: String? = null
@@ -64,9 +62,33 @@ class Settings : AppCompatActivity() {
         val prf = PrefManage()
         prf.prefcreate(this)
 
-        val uiq = prf.getuiq()
+        companydatabase = CompanyDatabase.getInstance(this@Settings)
+
+        productdatabase = ProductDatabase.getInstance(this@Settings)
 
         bu_import_data = findViewById(R.id.bu_import_data)
+
+        bu_procces_database = findViewById(R.id.bu_process_database)
+
+        bu_procces_database!!.setOnClickListener {
+            Thread(Runnable {
+
+                val arrayid_product = productdatabase?.ProductDao()?.getallid()
+
+                arrayid_product?.forEach {
+                    productdatabase?.ProductDao()?.deleteByUserId(it.toLong())
+                }
+
+                val arrayid_company = companydatabase?.CompanyDao()?.getallid()
+
+                arrayid_company?.forEach {
+                    companydatabase?.CompanyDao()?.deleteByUserId(it.toLong())
+                }
+
+
+            }).start()
+
+        }
 
         if (ContextCompat.checkSelfPermission(this ,android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
         {
@@ -82,21 +104,20 @@ class Settings : AppCompatActivity() {
             }
             else
             {
+
+
                 loginviewmodel = LoginViewModel()
 
                 loginviewmodel!!.login(prf.getemail() ,prf.getpassword() ,prf.getcode())
 
-                loginviewmodel!!.MutableLiveDataLogin.observe(this ,object :Observer<Login>{
-                    override fun onChanged(t: Login?) {
+                loginviewmodel!!.MutableLiveDataLogin.observe(this ,object :Observer<Login>{ override fun onChanged(t: Login?) {
                         if (t!!.status == "1")
                         {
                             prf.prefcreate(this@Settings)
                             prf.insertuiq(t.uiq)
 
                             val nuiq = prf.getuiq()
-                            companydatabase = CompanyDatabase.getInstance(this@Settings)
 
-                            productdatabase = ProductDatabase.getInstance(this@Settings)
 
                             CompanyViewModel = CompanyViewModel(this@Settings)
 
@@ -104,71 +125,56 @@ class Settings : AppCompatActivity() {
 
                             CompanyViewModel!!.getcompany(nuiq)
 
-                            val array_id = arrayListOf<String>()
 
 
                 CompanyViewModel!!.MutableLiveDataCompaby.observe(this@Settings,
-                    object : Observer<ArrayList<Companies>> {
-
-                        override fun onChanged(t: ArrayList<Companies>?) {
-                            Thread(Runnable() {
+                    object : Observer<ArrayList<Companies>> { override fun onChanged(t: ArrayList<Companies>?) {
+                  Thread(Runnable() {
                                 Log.d("chang", t.toString())
 
                                 for (i in t!!) {
+                                    ProductViewModel!!.getProducts(nuiq ,i.compid.toString() ,null ,null)
 
-                                    array_id.add(i.compid!!)
                                      if (i.image_link != "")
                                      {
                                         runOnUiThread {
                                             SaveImage("https://app.mytasks.click${i.image_link}" ,i.compid.toString())
+
                                         }
                                      }
                                     companydatabase?.CompanyDao()?.insertCompany(i)
                                 }
-
-
-                            }).start()
-
-                        }
+                      t.clear()
+                  }).start()
+                    }
 
                     })
-                            for (i in array_id)
-                            {
 
-                                ProductViewModel!!.getProducts(uiq ,i ,null ,null)
-                                Thread.sleep(300)
-                                Log.d("compid" ,i)
 
-                            }
-                ProductViewModel!!.MutableLiveDataProducts.observe(this@Settings ,
-                    object :Observer<ArrayList<Product>>
+                ProductViewModel!!.MutableLiveDataProducts.observe(this@Settings ,object :Observer<ArrayList<Product>>
                     {
                         override fun onChanged(t: ArrayList<Product>?) {
                             Thread(Runnable {
                                 try {
-
-                                    val it: MutableIterator<Product> = t!!.iterator()
-                                    while (it.hasNext()) {
-                                        val value = it.next()
-                                        if (value.image != "")
+                                    for (i in t!!)
+                                    {
+                                        if (i.image != "")
                                         {
                                             runOnUiThread {
-                                                SaveImage("https://app.mytasks.click${value.image}" ,value.id)
+                                                SaveImage("https://app.mytasks.click${i.image}" ,i.id)
                                             }
                                         }
-                                        productdatabase?.ProductDao()?.insertProduct(value)
+                                        productdatabase?.ProductDao()?.insertProduct(i)
+
                                     }
                                 }catch (ex:Exception)
                                 {
-                                    print(ex)
                                 }
 
                             }).start()
                         }
 
                     })
-
-
                         }
                     }
 

@@ -63,6 +63,22 @@
                     android:textColor="@color/white"
                     android:textSize="17sp"
                     app:cornerRadius="8sp" />
+
+                <Button
+                    android:id="@+id/bu_process_database"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20sp"
+                    android:backgroundTint="#D5F44336"
+                    android:drawableRight="@drawable/ic_procces"
+                    android:drawablePadding="15sp"
+                    android:paddingLeft="20sp"
+                    android:paddingRight="20sp"
+                    android:text="تهيئة قاعدة البيانات"
+                    android:textColor="@color/white"
+                    android:textSize="17sp"
+                    app:cornerRadius="8sp" />
+
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
