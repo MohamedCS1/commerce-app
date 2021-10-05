@@ -2,6 +2,7 @@ package com.example.Products
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.Pojo.Product
+import com.example.dispay_image
 import com.example.phons.R
 import com.squareup.picasso.Picasso
 import java.io.File
@@ -30,7 +32,12 @@ class ProductsAdapter(val context: Context):RecyclerView.Adapter<ProductsAdapter
         holder.tv_product_price.text = arraylist[position].price
         holder.tv_product_lastversion.text = arraylist[position].lastversion
 
-        val url = "https://app.mytasks.click/${arraylist[position].image}"
+        holder.itemView.setOnClickListener {
+
+        val intent = Intent(context ,dispay_image::class.java)
+            intent.putExtra("lastversion",arraylist[position].lastversion)
+            context.startActivities(arrayOf(intent))
+        }
 
         Picasso.with(context).load( File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),"Samco/${arraylist[position].lastversion}.jpg")).placeholder(R.drawable.placeholderimg).into(holder.image_product)
 

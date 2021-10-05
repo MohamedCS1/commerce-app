@@ -58,7 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_search_bar"
-                    android:hint="  Search Hear"
+                    android:hint="  Search Company"
                     android:paddingLeft="15sp"
                     android:paddingTop="12sp"
                     android:paddingRight="12sp"
@@ -69,7 +69,7 @@
                     android:textStyle="bold" />
 
                 <ImageButton
-                    android:id="@+id/calc_clear_txt_Prise"
+                    android:id="@+id/bu_clear_company"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|center_vertical"
@@ -92,12 +92,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-        <SearchView
-            android:layout_width="6dp"
-            android:layout_height="4dp"
-            app:layout_constraintBottom_toTopOf="@+id/my_progressBar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+
     </LinearLayout>
 
 

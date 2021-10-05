@@ -5,12 +5,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.Products.Products_activity">
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#DFE4EA">
 
 
+
+            <FrameLayout
+                android:id="@+id/search_bar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6sp"
+                android:layout_marginTop="3sp"
+                android:layout_marginRight="6sp">
+
+                <EditText
+                    android:id="@+id/et_searchbar_product"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_search_bar"
+                    android:hint="  Search Product"
+                    android:paddingLeft="15sp"
+                    android:paddingTop="12sp"
+                    android:paddingRight="12sp"
+                    android:paddingBottom="12sp"
+                    android:singleLine="true"
+                    android:textColor="#B9000000"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:id="@+id/bu_clear_product"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="15sp"
+                    android:background="@drawable/ic_delet_text" />
+
+            </FrameLayout>
+
+        </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_product"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#DFE4EA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -19,4 +69,5 @@
         app:layout_constraintVertical_bias="1.0" />
 
 
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

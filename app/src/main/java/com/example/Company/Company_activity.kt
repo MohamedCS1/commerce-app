@@ -4,9 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -18,6 +21,8 @@ import com.example.Data.PrefManage
 import com.example.Pojo.Companies
 import com.example.Settings.Settings
 import com.example.phons.R
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class Company_activity : AppCompatActivity() {
@@ -27,6 +32,7 @@ class Company_activity : AppCompatActivity() {
     var adapter:CompanyAdapter? = null
     var bu_go_to_settengs:CardView? = null
     var et_searchbar:EditText? = null
+    var bu_clear:ImageButton? = null
 
     var companydatabase: CompanyDatabase? = null
 
@@ -35,6 +41,13 @@ class Company_activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_company)
         companydatabase = CompanyDatabase.getInstance(this)
+
+        bu_clear = findViewById(R.id.bu_clear_company)
+
+        bu_clear!!.setOnClickListener {
+
+            et_searchbar?.setText("")
+        }
 
         val arr1 = arrayListOf<Companies>()
         Thread(Runnable {
@@ -61,7 +74,21 @@ class Company_activity : AppCompatActivity() {
 
         et_searchbar = findViewById(R.id.et_searchbar)
 
-        et_searchbar!!.isEnabled = false
+        et_searchbar?.addTextChangedListener(object :TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s == null) return
+                filter(s.toString() ,arr1)
+            }
+
+        })
 
         bu_go_to_settengs = findViewById(R.id.bu_gotoseting)
 
@@ -85,7 +112,20 @@ class Company_activity : AppCompatActivity() {
 
 
     }
+    fun filter(text: String, Array: ArrayList<Companies>)
+    {
+        val listfilter = arrayListOf<Companies>()
 
+        for (p in Array)
+        {
+            if (p.company_title!!.lowercase(Locale.getDefault()).contains(text.lowercase(Locale.getDefault())))
+            {
+                listfilter.add(p)
+            }
+        }
+        adapter!!.setList(listfilter)
+
+    }
     override fun onBackPressed() {
         finish()
         super.onBackPressed()
